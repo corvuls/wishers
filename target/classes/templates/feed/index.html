@@ -1,0 +1,26 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="app_layout :: head('Лента')"></head>
+
+  <body th:replace="app_layout :: page(~{::main}, 'Лента', 'feed')">
+    <main>
+      <div class="rounded-3xl bg-white/5 border border-white/10 p-4">
+        <div class="text-white/70 text-sm">Вы вошли как</div>
+        <div class="text-xl font-semibold mt-1" th:text="${username}">user@email.com</div>
+
+        <div class="mt-4 flex flex-wrap gap-2">
+          <a href="/profile"
+             class="px-4 py-2 rounded-2xl bg-white/10 border border-white/10 hover:bg-white/15">Профиль</a>
+          <a href="/wishlists"
+             class="px-4 py-2 rounded-2xl bg-white/10 border border-white/10 hover:bg-white/15">Вишлисты</a>
+          <a href="/logout"
+             class="px-4 py-2 rounded-2xl bg-white/10 border border-white/10 hover:bg-white/15">Выйти</a>
+        </div>
+      </div>
+
+      <div class="mt-4 rounded-3xl bg-white/5 border border-white/10 p-4 text-white/70">
+        Здесь будет лента событий и обновлений.
+      </div>
+    </main>
+  </body>
+</html>

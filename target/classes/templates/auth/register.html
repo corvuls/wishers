@@ -1,0 +1,59 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Регистрация</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-white min-h-screen grid place-items-center px-4">
+  <div class="w-full max-w-[520px] rounded-[44px] bg-white/5 border border-white/10 p-8 shadow-2xl">
+    <div class="text-4xl font-semibold tracking-tight mb-2">Wishers</div>
+    <div class="text-white/60 mb-6">Создайте аккаунт, чтобы начать.</div>
+
+    <div th:if="${formError}" class="mb-6 rounded-2xl border border-red-500/30 bg-red-500/10 px-5 py-4 text-red-200">
+      <span th:text="${formError}"></span>
+    </div>
+
+    <form th:action="@{/register}" method="post" class="space-y-5">
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+      <div>
+        <label class="block text-sm text-white/70 mb-2">Email</label>
+        <input type="email" name="email" required
+               class="w-full rounded-2xl bg-black/30 border border-white/10 px-5 py-4 outline-none focus:border-white/30"
+               placeholder="name@email.com"/>
+      </div>
+
+      <div>
+        <label class="block text-sm text-white/70 mb-2">Пароль</label>
+        <input type="password" name="password" required minlength="5"
+               class="w-full rounded-2xl bg-black/30 border border-white/10 px-5 py-4 outline-none focus:border-white/30"
+               placeholder="Минимум 5 символов"/>
+      </div>
+
+      <div>
+        <label class="block text-sm text-white/70 mb-2">Никнейм</label>
+        <input type="text" name="nickname" required
+               class="w-full rounded-2xl bg-black/30 border border-white/10 px-5 py-4 outline-none focus:border-white/30"
+               placeholder="alina"/>
+      </div>
+
+      <div>
+        <label class="block text-sm text-white/70 mb-2">Телефон</label>
+        <input type="tel" name="phone" required
+               class="w-full rounded-2xl bg-black/30 border border-white/10 px-5 py-4 outline-none focus:border-white/30"
+               placeholder="+7 999 123-45-67"/>
+      </div>
+
+      <button type="submit" class="w-full rounded-2xl bg-white text-black font-semibold py-4 hover:bg-white/90">
+        Создать аккаунт
+      </button>
+    </form>
+
+    <div class="mt-6 text-white/60">
+      Уже есть аккаунт? <a href="/login" class="text-white underline underline-offset-4">Войти</a>
+    </div>
+  </div>
+</body>
+</html>

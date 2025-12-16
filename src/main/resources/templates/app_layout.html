@@ -1,0 +1,67 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title th:text="${title}">Wishers</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body th:fragment="page(content, title, activeTab)">
+<div class="min-h-screen bg-black text-white">
+  <div class="mx-auto w-full max-w-[430px] px-4 pt-6 pb-24">
+    <header class="flex items-center justify-between mb-6">
+      <div class="text-2xl font-semibold tracking-tight" th:text="${title}">Заголовок</div>
+
+      <div class="flex items-center gap-3">
+        <a href="/notifications"
+           class="h-10 w-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10"
+           aria-label="Уведомления">🔔</a>
+
+        <a href="/settings"
+           class="h-10 w-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10"
+           aria-label="Настройки">⚙️</a>
+      </div>
+    </header>
+
+    <main th:replace="${content}"></main>
+  </div>
+
+  <nav class="fixed bottom-0 left-0 right-0 bg-black/80 backdrop-blur border-t border-white/10">
+    <div class="mx-auto w-full max-w-[430px] px-3">
+      <div class="grid grid-cols-5 gap-2 py-2 text-[11px] text-white/70">
+        <a href="/feed"
+           class="flex flex-col items-center justify-center py-2 rounded-2xl border border-transparent hover:bg-white/5"
+           th:classappend="${activeTab}=='feed' ? ' bg-white/5 border-white/10 text-white' : ''">
+          <div class="text-lg">🏠</div><div>Лента</div>
+        </a>
+
+        <a href="/favorites"
+           class="flex flex-col items-center justify-center py-2 rounded-2xl border border-transparent hover:bg-white/5"
+           th:classappend="${activeTab}=='favorites' ? ' bg-white/5 border-white/10 text-white' : ''">
+          <div class="text-lg">★</div><div>Избр.</div>
+        </a>
+
+        <a href="/wishlists"
+           class="flex flex-col items-center justify-center py-2 rounded-2xl border border-white/15 bg-white/10 hover:bg-white/15"
+           th:classappend="${activeTab}=='wishlists' ? ' text-white' : ''">
+          <div class="text-lg">🎁</div><div>Списки</div>
+        </a>
+
+        <a href="/friends"
+           class="flex flex-col items-center justify-center py-2 rounded-2xl border border-transparent hover:bg-white/5"
+           th:classappend="${activeTab}=='friends' ? ' bg-white/5 border-white/10 text-white' : ''">
+          <div class="text-lg">👥</div><div>Друзья</div>
+        </a>
+
+        <a href="/profile"
+           class="flex flex-col items-center justify-center py-2 rounded-2xl border border-transparent hover:bg-white/5"
+           th:classappend="${activeTab}=='profile' ? ' bg-white/5 border-white/10 text-white' : ''">
+          <div class="text-lg">👤</div><div>Профиль</div>
+        </a>
+      </div>
+    </div>
+  </nav>
+</div>
+</body>
+</html>

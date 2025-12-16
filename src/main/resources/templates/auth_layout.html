@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="page(content, pageTitle)">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title th:text="${pageTitle}">Wishers</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" th:href="@{/css/app.css}"/>
+</head>
+<body class="text-white antialiased">
+  <div class="mx-auto max-w-[460px] min-h-screen px-4 pt-[calc(env(safe-area-inset-top)+24px)] pb-[calc(env(safe-area-inset-bottom)+24px)]">
+    <div class="glass rounded-3xl p-6">
+      <main th:replace="${content}">Content</main>
+    </div>
+  </div>
+</body>
+</html>

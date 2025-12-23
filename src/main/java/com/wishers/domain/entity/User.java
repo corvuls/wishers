@@ -2,7 +2,6 @@ package com.wishers.domain.entity;
 
 import jakarta.persistence.*;
 import java.time.Instant;
-import java.time.Instant;
 
 @Entity
 @Table(name = "users",
@@ -27,6 +26,10 @@ public class User {
   @Column(nullable=false, length=200)
   private String passwordHash;
 
+  // avatar served via /uploads/**
+  @Column(length=300)
+  private String avatarPath;
+
   @Column(nullable=false)
   private Instant createdAt = Instant.now();
 
@@ -44,22 +47,9 @@ public class User {
   public String getPasswordHash() { return passwordHash; }
   public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
 
+  public String getAvatarPath() { return avatarPath; }
+  public void setAvatarPath(String avatarPath) { this.avatarPath = avatarPath; }
+
   public Instant getCreatedAt() { return createdAt; }
   public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
-
-
-  
-  void prePersist() {
-    try {
-      if (this.createdAt == null) this.createdAt = Instant.now();
-    } catch (Throwable ignored) {}
-    try {
-    } catch (Throwable ignored) {}
-  }
-
-  
-  void preUpdate() {
-    try {
-    } catch (Throwable ignored) {}
-  }
 }

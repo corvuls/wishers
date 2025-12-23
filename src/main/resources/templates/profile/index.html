@@ -1,24 +1,43 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head th:replace="app_layout :: head('Профиль')"></head>
+<head th:replace="app_layout :: head('Профиль')"></head>
 
-  <body th:replace="app_layout :: page(~{::main}, 'Профиль', 'profile')">
-    <main>
-      <div class="rounded-3xl bg-white/5 border border-white/10 p-4">
-        <div class="text-3xl font-semibold">Профиль</div>
+<body th:replace="app_layout :: page(~{::main}, 'Профиль', 'profile')">
+<main>
+  <div class="rounded-3xl bg-white/5 border border-white/10 p-4 overflow-hidden">
+    <div class="text-3xl font-semibold">Профиль</div>
 
-        <div class="mt-4 text-white/70">Email</div>
-        <div class="text-xl font-semibold mt-1" th:text="${email}">user@email.com</div>
-
-        <div class="mt-4 flex flex-wrap gap-2">
-          <a href="/feed"
-             class="px-4 py-2 rounded-2xl bg-white/10 border border-white/10 hover:bg-white/15">Лента</a>
-          <a href="/wishlists"
-             class="px-4 py-2 rounded-2xl bg-white/10 border border-white/10 hover:bg-white/15">Вишлисты</a>
-          <a href="/logout"
-             class="px-4 py-2 rounded-2xl bg-white/10 border border-white/10 hover:bg-white/15">Выйти</a>
-        </div>
+    <div class="mt-4 flex items-center gap-4">
+      <div class="w-20 h-20 rounded-3xl overflow-hidden border border-white/10 bg-white/5 flex items-center justify-center">
+        <img th:if="${user.avatarPath != null}" th:src="${user.avatarPath}" alt="avatar" class="w-full h-full object-cover"/>
+        <div th:if="${user.avatarPath == null}" class="text-white/60 text-sm">Нет фото</div>
       </div>
-    </main>
-  </body>
+
+      <div>
+        <div class="text-white/60 text-sm">Ник</div>
+        <div class="text-2xl font-semibold" th:text="${user.nickname}">nickname</div>
+
+        <div class="mt-2 text-white/60 text-sm">Email</div>
+        <div class="text-white/90" th:text="${user.email}">email</div>
+      </div>
+    </div>
+
+    <form class="mt-4 space-y-2" action="/profile/avatar" method="post" enctype="multipart/form-data">
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+      <label class="block text-sm text-white/70">Поставить аватарку</label>
+      <input name="avatar" type="file" accept="image/*"
+             class="w-full rounded-2xl bg-black/30 border border-white/10 px-4 py-3 outline-none focus:border-white/30"/>
+      <button class="w-full rounded-2xl bg-white text-black font-semibold py-3 hover:bg-white/90">
+        Сохранить фото
+      </button>
+    </form>
+
+    <div class="mt-4 flex flex-wrap gap-2">
+      <a href="/settings" class="px-4 py-2 rounded-2xl bg-white/10 border border-white/10 hover:bg-white/15">Settings</a>
+      <a href="/feed" class="px-4 py-2 rounded-2xl bg-white/10 border border-white/10 hover:bg-white/15">Лента</a>
+      <a href="/wishlists" class="px-4 py-2 rounded-2xl bg-white/10 border border-white/10 hover:bg-white/15">Вишлисты</a>
+    </div>
+  </div>
+</main>
+</body>
 </html>

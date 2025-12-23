@@ -1,6 +1,7 @@
 package com.wishers.domain.entity;
 
 import jakarta.persistence.*;
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity
@@ -26,6 +27,14 @@ public class WishItem {
     @Column(length = 2000)
     private String note;
 
+    @Column(length = 300)
+    private String imagePath;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User reservedBy;
+
+    private Instant reservedAt;
+
     @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
@@ -45,6 +54,15 @@ public class WishItem {
 
     public String getNote() { return note; }
     public void setNote(String note) { this.note = note; }
+
+    public String getImagePath() { return imagePath; }
+    public void setImagePath(String imagePath) { this.imagePath = imagePath; }
+
+    public User getReservedBy() { return reservedBy; }
+    public void setReservedBy(User reservedBy) { this.reservedBy = reservedBy; }
+
+    public Instant getReservedAt() { return reservedAt; }
+    public void setReservedAt(Instant reservedAt) { this.reservedAt = reservedAt; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }

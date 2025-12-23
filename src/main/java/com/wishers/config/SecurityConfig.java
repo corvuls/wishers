@@ -2,7 +2,6 @@ package com.wishers.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +22,7 @@ public class SecurityConfig {
       .authorizeHttpRequests(auth -> auth
           .requestMatchers(
               "/login", "/register",
+              "/uploads/**",
               "/css/**", "/js/**", "/images/**", "/favicon.ico"
           ).permitAll()
           .requestMatchers("/h2-console/**").permitAll()
@@ -35,13 +35,16 @@ public class SecurityConfig {
           .failureUrl("/login?error")
           .permitAll()
       )
+      .rememberMe(rm -> rm
+          .key("wishers-remember-me-key")
+          .tokenValiditySeconds(60 * 60 * 24 * 14) // 14 days
+      )
       .logout(logout -> logout
           .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "POST"))
           .logoutSuccessUrl("/login?logout")
           .permitAll()
       );
 
-    // H2 console support
     http.csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"));
     http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
 

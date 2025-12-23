@@ -1,19 +1,54 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head th:replace="app_layout :: head('Друзья')"></head>
+<head th:replace="app_layout :: head('Друзья')"></head>
 
-  <body th:replace="app_layout :: page(~{::main}, 'Друзья', 'friends')">
-    <main>
-      <div class="rounded-3xl bg-white/5 border border-white/10 p-4">
-        <div class="text-3xl font-semibold">Друзья</div>
-        <div class="text-white/60 mt-2">Здесь будет список друзей и приглашения.</div>
+<body th:replace="app_layout :: page(~{::main}, 'Друзья', 'friends')">
+<main>
+  <div class="rounded-3xl bg-white/5 border border-white/10 p-4">
+    <div class="text-3xl font-semibold">Друзья</div>
+    <div class="text-white/60 mt-2">Добавь друга по email или нику — и его новые желания появятся в ленте.</div>
 
-        <div class="mt-4 flex flex-wrap gap-2">
-          <a href="/feed" class="px-4 py-2 rounded-2xl bg-white/10 border border-white/10 hover:bg-white/15">Лента</a>
-          <a href="/wishlists" class="px-4 py-2 rounded-2xl bg-white/10 border border-white/10 hover:bg-white/15">Вишлисты</a>
-          <a href="/profile" class="px-4 py-2 rounded-2xl bg-white/10 border border-white/10 hover:bg-white/15">Профиль</a>
+    <form class="mt-4 space-y-2" method="post" action="/friends/add">
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+      <input name="query" placeholder="Email или ник"
+             class="w-full rounded-2xl bg-black/30 border border-white/10 px-4 py-3 outline-none focus:border-white/30"/>
+      <button class="w-full rounded-2xl bg-white text-black font-semibold py-3 hover:bg-white/90" type="submit">
+        Добавить друга
+      </button>
+    </form>
+
+    <div class="mt-6">
+      <div class="text-lg font-semibold">Мои друзья</div>
+
+      <div class="mt-3 grid gap-3">
+        <div th:if="${friends == null or #lists.isEmpty(friends)}"
+             class="rounded-2xl bg-white/5 border border-white/10 p-4 text-white/70">
+          Пока друзей нет.
+        </div>
+
+        <div th:each="u : ${friends}" class="rounded-2xl bg-white/5 border border-white/10 p-4 flex items-center justify-between gap-3">
+          <div>
+            <div class="font-semibold" th:text="${u.nickname}">nick</div>
+            <div class="text-white/60 text-sm" th:text="${u.email}">email</div>
+          </div>
+
+          <form method="post" action="/friends/remove" onsubmit="return confirm('Удалить из друзей?');">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <input type="hidden" name="userId" th:value="${u.id}"/>
+            <button type="submit" class="px-4 py-2 rounded-2xl bg-white/10 border border-white/10 hover:bg-white/15">
+              Удалить
+            </button>
+          </form>
         </div>
       </div>
-    </main>
-  </body>
+    </div>
+
+    <div class="mt-4 flex flex-wrap gap-2">
+      <a href="/feed" class="px-4 py-2 rounded-2xl bg-white/10 border border-white/10 hover:bg-white/15">Лента</a>
+      <a href="/profile" class="px-4 py-2 rounded-2xl bg-white/10 border border-white/10 hover:bg-white/15">Профиль</a>
+      <a href="/wishlists" class="px-4 py-2 rounded-2xl bg-white/10 border border-white/10 hover:bg-white/15">Вишлисты</a>
+    </div>
+  </div>
+</main>
+</body>
 </html>

@@ -1,26 +1,57 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head th:replace="app_layout :: head('Лента')"></head>
+<head th:replace="app_layout :: head('Лента')"></head>
 
-  <body th:replace="app_layout :: page(~{::main}, 'Лента', 'feed')">
-    <main>
-      <div class="rounded-3xl bg-white/5 border border-white/10 p-4">
-        <div class="text-white/70 text-sm">Вы вошли как</div>
-        <div class="text-xl font-semibold mt-1" th:text="${username}">user@email.com</div>
+<body th:replace="app_layout :: page(~{::main}, 'Лента', 'feed')">
+<main>
+  <div class="rounded-3xl bg-white/5 border border-white/10 p-4">
+    <div class="text-3xl font-semibold">Лента</div>
+    <div class="text-white/60 mt-2">
+      Новые желания друзей (друзей: <span th:text="${friendsCount}">0</span>)
+    </div>
 
-        <div class="mt-4 flex flex-wrap gap-2">
-          <a href="/profile"
-             class="px-4 py-2 rounded-2xl bg-white/10 border border-white/10 hover:bg-white/15">Профиль</a>
-          <a href="/wishlists"
-             class="px-4 py-2 rounded-2xl bg-white/10 border border-white/10 hover:bg-white/15">Вишлисты</a>
-          <a href="/logout"
-             class="px-4 py-2 rounded-2xl bg-white/10 border border-white/10 hover:bg-white/15">Выйти</a>
-        </div>
+    <div class="mt-4 flex flex-wrap gap-2">
+      <a href="/friends" class="px-4 py-2 rounded-2xl bg-white text-black font-semibold hover:bg-white/90">+ Добавить друзей</a>
+      <a href="/wishlists" class="px-4 py-2 rounded-2xl bg-white/10 border border-white/10 hover:bg-white/15">Мои вишлисты</a>
+      <a href="/profile" class="px-4 py-2 rounded-2xl bg-white/10 border border-white/10 hover:bg-white/15">Профиль</a>
+    </div>
+  </div>
+
+  <div class="mt-4 grid gap-3">
+    <div th:if="${items == null or #lists.isEmpty(items)}"
+         class="rounded-3xl bg-white/5 border border-white/10 p-4 text-white/70">
+      Пока нет новых желаний. Добавь друзей — и здесь появятся их подарки.
+    </div>
+
+    <div th:each="it : ${items}"
+         class="rounded-3xl bg-white/5 border border-white/10 p-4">
+      <div class="text-white/60 text-sm">
+        <span th:text="${it.wishList.owner.nickname}">Друг</span> добавил(а) в
+        <span class="text-white/80" th:text="${it.wishList.title}">Вишлист</span>
       </div>
 
-      <div class="mt-4 rounded-3xl bg-white/5 border border-white/10 p-4 text-white/70">
-        Здесь будет лента событий и обновлений.
+      <div class="text-xl font-semibold mt-2" th:text="${it.title}">Подарок</div>
+
+      <div class="mt-2 text-white/70" th:if="${it.note != null and !#strings.isEmpty(it.note)}" th:text="${it.note}">note</div>
+
+      <div class="mt-3" th:if="${it.imagePath != null and !#strings.isEmpty(it.imagePath)}">
+        <img th:src="${it.imagePath}" alt="Фото" class="w-full rounded-2xl border border-white/10 object-cover max-h-80"/>
       </div>
-    </main>
-  </body>
+
+      <div class="mt-3 flex flex-wrap gap-2">
+        <a th:href="@{/wishlists/{id}(id=${it.wishList.id})}"
+           class="px-4 py-2 rounded-2xl bg-white/10 border border-white/10 hover:bg-white/15">
+          Открыть вишлист
+        </a>
+
+        <a th:if="${it.link != null and !#strings.isEmpty(it.link)}"
+           th:href="${it.link}" target="_blank" rel="noopener"
+           class="px-4 py-2 rounded-2xl bg-white text-black font-semibold hover:bg-white/90">
+          Ссылка
+        </a>
+      </div>
+    </div>
+  </div>
+</main>
+</body>
 </html>

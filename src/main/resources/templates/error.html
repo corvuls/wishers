@@ -1,0 +1,31 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="app_layout :: head('Ошибка')"></head>
+
+<body th:replace="app_layout :: page(~{::main}, 'Ошибка', 'error')">
+<main>
+  <div class="rounded-3xl bg-white/5 border border-white/10 p-4 overflow-hidden">
+    <div class="text-2xl font-semibold">Ошибка</div>
+
+    <div class="mt-3 text-white/70">
+      <div><b>Status:</b> <span th:text="${status}">500</span></div>
+      <div><b>Error:</b> <span th:text="${error}">Internal Server Error</span></div>
+      <div><b>Path:</b> <span th:text="${path}">/feed</span></div>
+      <div><b>Message:</b></div>
+      <pre class="mt-2 p-3 rounded-2xl bg-black/30 border border-white/10 whitespace-pre-wrap"
+           th:text="${message}">message</pre>
+
+      <div class="mt-4"><b>Trace:</b></div>
+      <pre class="mt-2 p-3 rounded-2xl bg-black/30 border border-white/10 whitespace-pre-wrap overflow-auto max-h-[60vh]"
+           th:text="${trace}">trace</pre>
+    </div>
+
+    <div class="mt-4 flex gap-2 flex-wrap">
+      <a href="/profile" class="px-4 py-2 rounded-2xl bg-white/10 border border-white/10 hover:bg-white/15">Профиль</a>
+      <a href="/wishlists" class="px-4 py-2 rounded-2xl bg-white/10 border border-white/10 hover:bg-white/15">Вишлисты</a>
+      <a href="/friends" class="px-4 py-2 rounded-2xl bg-white/10 border border-white/10 hover:bg-white/15">Друзья</a>
+    </div>
+  </div>
+</main>
+</body>
+</html>
